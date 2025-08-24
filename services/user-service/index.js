@@ -1,6 +1,6 @@
 const express = require('express');
-const cors = require('cors');
 const dotenv = require('dotenv');
+const cors = require('cors');
 const connectDB = require('./config/db');
 
 // Load env vars
@@ -18,10 +18,6 @@ app.use(express.json());
 // Define Routes
 app.use('/api/auth', require('./routes/auth'));
 
-app.get('/', (req, res) => {
-    res.send('API is running...');
-});
+const PORT = process.env.PORT || 5001;
 
-const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, () => console.log(`Server started on port ${PORT}`));
+app.listen(PORT, () => console.log(`User Service running on port ${PORT}`));

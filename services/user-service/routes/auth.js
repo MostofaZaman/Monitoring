@@ -4,11 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// IMPORTANT: In a production environment, JWT_SECRET should be stored in a secure
-// environment variable, not hardcoded.
-const JWT_SECRET = 'secret';
-
-// @route   POST api/auth/register
+// @route   POST /register
 // @desc    Register a new user
 // @access  Public
 router.post('/register', async (req, res) => {
@@ -20,22 +16,11 @@ router.post('/register', async (req, res) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
-        user = new User({
-            name,
-            email,
-            password,
-            role
-        });
-
+        user = new User({ name, email, password, role });
         await user.save();
 
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        const payload = { user: { id: user.id } };
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
@@ -46,7 +31,7 @@ router.post('/register', async (req, res) => {
     }
 });
 
-// @route   POST api/auth/login
+// @route   POST /login
 // @desc    Authenticate user & get token
 // @access  Public
 router.post('/login', async (req, res) => {
@@ -63,13 +48,8 @@ router.post('/login', async (req, res) => {
             return res.status(400).json({ msg: 'Invalid credentials' });
         }
 
-        const payload = {
-            user: {
-                id: user.id
-            }
-        };
-
-        jwt.sign(payload, JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+        const payload = { user: { id: user.id } };
+        jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err;
             res.json({ token });
         });
