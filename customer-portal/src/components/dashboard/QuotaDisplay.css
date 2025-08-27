@@ -1,0 +1,18 @@
+.quota-display .progress-bar-container {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  height: 20px;
+  margin: 1rem 0;
+}
+
+.quota-display .progress-bar {
+  height: 100%;
+  background-color: #61dafb;
+  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
+}
+
+.quota-display p {
+  margin: 0.5rem 0;
+}
